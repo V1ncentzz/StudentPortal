@@ -50,7 +50,7 @@ namespace StudentPortal.Models
             {
                 Id = 1,
                 Username = "admin",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
+                PasswordHash = "$2a$11$npnhaXhxOCrO51AzZRm8QO4H.gPCUHvvaSN5WWnuh0Sqp4S55MCUm",
                 Role = "Admin",
                 StudentId = null
             });
