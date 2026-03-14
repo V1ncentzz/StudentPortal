@@ -1,0 +1,40 @@
+@model List<Enrollment>
+@{
+    ViewData["Title"] = "My Subjects";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-book"></i> My Subjects</h1>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Subject</th>
+                        <th>Instructor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="3" class="text-center text-muted py-4">No subjects enrolled.</td></tr>
+                    }
+                    @{ int idx = 1; }
+                    @foreach (var e in Model)
+                    {
+                        <tr>
+                            <td>@idx</td>
+                            <td><strong>@e.Subject?.SubjectName</strong></td>
+                            <td>@e.Subject?.Instructor</td>
+                        </tr>
+                        idx++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

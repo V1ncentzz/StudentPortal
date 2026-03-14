@@ -1,0 +1,46 @@
+@model Enrollment
+@{
+    ViewData["Title"] = "Set Grade";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-pencil-square"></i> Set Grade</h1>
+    <a href="/Admin/Enrollments" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="mb-4">
+            <table class="table">
+                <tr><th>Student</th><td>@Model.Student?.Name</td></tr>
+                <tr><th>Subject</th><td>@Model.Subject?.SubjectName</td></tr>
+                <tr><th>Current Grade</th><td>@(string.IsNullOrEmpty(Model.Grade) ? "Not Graded" : Model.Grade)</td></tr>
+            </table>
+        </div>
+        <form asp-action="SetGrade" method="post">
+            <input type="hidden" name="enrollmentId" value="@Model.EnrollmentId" />
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Grade</label>
+                    <select name="grade" class="form-select">
+                        <option value="">-- Select --</option>
+                        <option value="1.00">1.00</option>
+                        <option value="1.25">1.25</option>
+                        <option value="1.50">1.50</option>
+                        <option value="1.75">1.75</option>
+                        <option value="2.00">2.00</option>
+                        <option value="2.25">2.25</option>
+                        <option value="2.50">2.50</option>
+                        <option value="2.75">2.75</option>
+                        <option value="3.00">3.00</option>
+                        <option value="5.00">5.00 (Failed)</option>
+                        <option value="INC">INC</option>
+                        <option value="DRP">DRP</option>
+                    </select>
+                </div>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save Grade</button>
+        </form>
+    </div>
+</div>

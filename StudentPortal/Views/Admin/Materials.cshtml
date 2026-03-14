@@ -1,0 +1,49 @@
+@model List<Material>
+@{
+    ViewData["Title"] = "Manage Materials";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-file-earmark-arrow-up"></i> Learning Materials</h1>
+    <a href="/Admin/UploadMaterial" class="btn btn-primary"><i class="bi bi-upload"></i> Upload Material</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>File Name</th>
+                        <th>Subject</th>
+                        <th>Upload Date</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="5" class="text-center text-muted py-4">No materials uploaded.</td></tr>
+                    }
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td>@m.MaterialId</td>
+                            <td><i class="bi bi-file-earmark"></i> <strong>@m.FileName</strong></td>
+                            <td><span class="badge bg-info-subtle text-info-emphasis">@m.Subject?.SubjectName</span></td>
+                            <td>@m.UploadDate.ToString("MMM dd, yyyy")</td>
+                            <td class="text-end">
+                                <a href="/Admin/DownloadMaterial/@m.MaterialId" class="btn btn-sm btn-outline-success"><i class="bi bi-download"></i></a>
+                                <form asp-action="DeleteMaterial" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@m.MaterialId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

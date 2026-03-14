@@ -1,0 +1,49 @@
+@model Student
+@{
+    ViewData["Title"] = "Add Student";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-person-plus"></i> Add New Student</h1>
+    <a href="/Admin/Students" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="CreateStudent" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Full Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter full name" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Course</label>
+                    <input asp-for="Course" class="form-control" placeholder="Enter course (e.g., BSCS)" />
+                    <span asp-validation-for="Course" class="text-danger small"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Year Level</label>
+                    <select asp-for="YearLevel" class="form-select">
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Login Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Set password" />
+                    <small class="text-muted">Username will be the email</small>
+                </div>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Create Student</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+@model List<Enrollment>
+@{
+    ViewData["Title"] = "Manage Enrollments";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-journal-check"></i> Enrollments</h1>
+    <a href="/Admin/CreateEnrollment" class="btn btn-primary"><i class="bi bi-journal-plus"></i> Enroll Student</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Grade</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="5" class="text-center text-muted py-4">No enrollments found.</td></tr>
+                    }
+                    @foreach (var e in Model)
+                    {
+                        <tr>
+                            <td>@e.EnrollmentId</td>
+                            <td><strong>@e.Student?.Name</strong></td>
+                            <td>@e.Subject?.SubjectName</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(e.Grade))
+                                {
+                                    <span class="badge bg-secondary">Not Graded</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">@e.Grade</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a href="/Admin/SetGrade/@e.EnrollmentId" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i> Grade</a>
+                                <form asp-action="DeleteEnrollment" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@e.EnrollmentId" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

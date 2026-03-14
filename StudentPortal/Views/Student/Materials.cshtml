@@ -1,0 +1,48 @@
+@model List<Material>
+@{
+    ViewData["Title"] = "Learning Materials";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-file-earmark-arrow-down"></i> Learning Materials</h1>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="text-center text-muted py-5">
+        <i class="bi bi-file-earmark display-4"></i>
+        <p class="mt-2">No materials available for your subjects.</p>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Subject</th>
+                            <th>Upload Date</th>
+                            <th class="text-end">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td><i class="bi bi-file-earmark"></i> <strong>@m.FileName</strong></td>
+                                <td><span class="badge bg-info-subtle text-info-emphasis">@m.Subject?.SubjectName</span></td>
+                                <td>@m.UploadDate.ToString("MMM dd, yyyy")</td>
+                                <td class="text-end">
+                                    <a href="/Student/DownloadMaterial/@m.MaterialId" class="btn btn-sm btn-outline-success"><i class="bi bi-download"></i> Download</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

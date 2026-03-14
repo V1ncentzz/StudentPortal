@@ -1,0 +1,28 @@
+@model List<Announcement>
+@{
+    ViewData["Title"] = "Announcements";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-megaphone"></i> Announcements</h1>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="text-center text-muted py-5">
+        <i class="bi bi-megaphone display-4"></i>
+        <p class="mt-2">No announcements at this time.</p>
+    </div>
+}
+
+@foreach (var a in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title mb-1"><i class="bi bi-pin-angle-fill text-danger"></i> @a.Title</h5>
+            <small class="text-muted"><i class="bi bi-calendar"></i> @a.DatePosted.ToString("MMMM dd, yyyy h:mm tt")</small>
+            <hr />
+            <p class="card-text">@a.Content</p>
+        </div>
+    </div>
+}

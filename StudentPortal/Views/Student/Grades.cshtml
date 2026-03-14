@@ -1,0 +1,51 @@
+@model List<Enrollment>
+@{
+    ViewData["Title"] = "My Grades";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-bar-chart-line"></i> My Grades</h1>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Subject</th>
+                        <th>Instructor</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="4" class="text-center text-muted py-4">No grades available.</td></tr>
+                    }
+                    @{ int idx = 1; }
+                    @foreach (var e in Model)
+                    {
+                        <tr>
+                            <td>@idx</td>
+                            <td><strong>@e.Subject?.SubjectName</strong></td>
+                            <td>@e.Subject?.Instructor</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(e.Grade))
+                                {
+                                    <span class="badge bg-secondary">Pending</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success fs-6">@e.Grade</span>
+                                }
+                            </td>
+                        </tr>
+                        idx++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

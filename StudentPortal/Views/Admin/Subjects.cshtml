@@ -1,0 +1,43 @@
+@model List<Subject>
+@{
+    ViewData["Title"] = "Manage Subjects";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-book"></i> Subjects</h1>
+    <a href="/Admin/CreateSubject" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Subject</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject Name</th>
+                        <th>Instructor</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="4" class="text-center text-muted py-4">No subjects found.</td></tr>
+                    }
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@s.SubjectId</td>
+                            <td><strong>@s.SubjectName</strong></td>
+                            <td>@s.Instructor</td>
+                            <td class="text-end">
+                                <a href="/Admin/EditSubject/@s.SubjectId" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

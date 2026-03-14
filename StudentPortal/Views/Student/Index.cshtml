@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Student Dashboard";
+    var student = ViewBag.Student as StudentPortal.Models.Student;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-speedometer2"></i> Welcome, @student?.Name!</h1>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="stat-card bg-primary">
+            <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
+            <div class="stat-info">
+                <h3>@ViewBag.SubjectCount</h3>
+                <span>Enrolled Subjects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card bg-warning">
+            <div class="stat-icon"><i class="bi bi-megaphone-fill"></i></div>
+            <div class="stat-info">
+                <h3>@ViewBag.AnnouncementCount</h3>
+                <span>Announcements</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card bg-success">
+            <div class="stat-icon"><i class="bi bi-person-fill"></i></div>
+            <div class="stat-info">
+                <h3>@student?.Course</h3>
+                <span>Year @student?.YearLevel</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card dashboard-card">
+            <div class="card-header"><i class="bi bi-lightning-fill text-warning"></i> Quick Links</div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/Student/Profile" class="btn btn-outline-primary"><i class="bi bi-person"></i> View Profile</a>
+                    <a href="/Student/Subjects" class="btn btn-outline-success"><i class="bi bi-book"></i> My Subjects</a>
+                    <a href="/Student/Grades" class="btn btn-outline-info"><i class="bi bi-bar-chart-line"></i> My Grades</a>
+                    <a href="/Student/Materials" class="btn btn-outline-warning"><i class="bi bi-file-earmark-arrow-down"></i> Learning Materials</a>
+                    <a href="/Student/Announcements" class="btn btn-outline-danger"><i class="bi bi-megaphone"></i> Announcements</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card dashboard-card">
+            <div class="card-header"><i class="bi bi-info-circle-fill text-info"></i> My Information</div>
+            <div class="card-body">
+                <table class="table table-sm mb-0">
+                    <tr><td class="text-muted">Name</td><td>@student?.Name</td></tr>
+                    <tr><td class="text-muted">Email</td><td>@student?.Email</td></tr>
+                    <tr><td class="text-muted">Course</td><td>@student?.Course</td></tr>
+                    <tr><td class="text-muted">Year Level</td><td>@student?.YearLevel</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
