@@ -197,21 +197,43 @@ namespace StudentPortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateEnrollment(Enrollment enrollment)
+        public async Task<IActionResult> CreateEnrollment(int studentId, List<int> subjectIds)
         {
-            // Check for duplicate
-            var exists = await _context.Enrollments
-                .AnyAsync(e => e.StudentId == enrollment.StudentId && e.SubjectId == enrollment.SubjectId);
-
-            if (exists)
+            if (subjectIds == null || subjectIds.Count == 0)
             {
-                TempData["Error"] = "This student is already enrolled in this subject.";
+                TempData["Error"] = "Please select at least one subject.";
                 return RedirectToAction(nameof(CreateEnrollment));
             }
 
-            _context.Enrollments.Add(enrollment);
+            int added = 0;
+            int skipped = 0;
+
+            foreach (var subjectId in subjectIds)
+            {
+                var exists = await _context.Enrollments
+                    .AnyAsync(e => e.StudentId == studentId && e.SubjectId == subjectId);
+
+                if (exists)
+                {
+                    skipped++;
+                    continue;
+                }
+
+                _context.Enrollments.Add(new Enrollment
+                {
+                    StudentId = studentId,
+                    SubjectId = subjectId
+                });
+                added++;
+            }
+
             await _context.SaveChangesAsync();
-            TempData["Success"] = "Enrollment created successfully.";
+
+            if (skipped > 0)
+                TempData["Success"] = $"{added} subject(s) enrolled successfully. {skipped} skipped (already enrolled).";
+            else
+                TempData["Success"] = $"{added} subject(s) enrolled successfully.";
+
             return RedirectToAction(nameof(Enrollments));
         }
 

@@ -12,36 +12,54 @@
 <div class="card">
     <div class="card-body">
         <form asp-action="CreateEnrollment" method="post">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Student</label>
-                    <select name="StudentId" class="form-select" required>
-                        <option value="">-- Select Student --</option>
-                        @if (students != null)
+            <div class="mb-4">
+                <label class="form-label fw-bold">Student</label>
+                <select name="StudentId" class="form-select" required>
+                    <option value="">-- Select Student --</option>
+                    @if (students != null)
+                    {
+                        @foreach (var s in students)
                         {
-                            @foreach (var s in students)
-                            {
-                                <option value="@s.StudentId">@s.Name (@s.Course)</option>
-                            }
+                            <option value="@s.StudentId">@s.Name (@s.Course)</option>
                         }
-                    </select>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Subjects <small class="text-muted fw-normal">(select one or more)</small></label>
+                <div class="border rounded p-3" style="max-height: 320px; overflow-y: auto;">
+                    @if (subjects != null && subjects.Count > 0)
+                    {
+                        @foreach (var s in subjects)
+                        {
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="SubjectIds" value="@s.SubjectId" id="subj_@s.SubjectId" />
+                                <label class="form-check-label" for="subj_@s.SubjectId">
+                                    <strong>@s.SubjectName</strong> <span class="text-muted">— @s.Instructor</span>
+                                </label>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No subjects available. Create subjects first.</p>
+                    }
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">Subject</label>
-                    <select name="SubjectId" class="form-select" required>
-                        <option value="">-- Select Subject --</option>
-                        @if (subjects != null)
-                        {
-                            @foreach (var s in subjects)
-                            {
-                                <option value="@s.SubjectId">@s.SubjectName — @s.Instructor</option>
-                            }
-                        }
-                    </select>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAll(true)"><i class="bi bi-check-all"></i> Select All</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleAll(false)"><i class="bi bi-x-circle"></i> Clear All</button>
                 </div>
             </div>
+
             <hr />
-            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Create Enrollment</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Enroll in Selected Subjects</button>
         </form>
     </div>
 </div>
+
+<script>
+    function toggleAll(checked) {
+        document.querySelectorAll('input[name="SubjectIds"]').forEach(cb => cb.checked = checked);
+    }
+</script>
