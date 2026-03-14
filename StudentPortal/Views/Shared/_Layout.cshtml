@@ -90,5 +90,86 @@ else
         document.getElementById('page-content').classList.toggle('expanded');
     }
 </script>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <!-- Chatbot Widget -->
+    <div class="chatbot-fab" id="chatbot-fab" onclick="toggleChat()">
+        <i class="bi bi-chat-dots-fill"></i>
+    </div>
+
+    <div class="chatbot-window" id="chatbot-window">
+        <div class="chatbot-header">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-robot fs-5"></i>
+                <div>
+                    <strong>Portal Assistant</strong>
+                    <small class="d-block" style="opacity:0.8;font-size:0.7rem;">Online — Type "help" to start</small>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-link text-white" onclick="toggleChat()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="chat-bubble bot">
+                👋 Hi! I'm your Portal Assistant. Type <strong>"help"</strong> to see what I can do!
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type a message..." autocomplete="off"
+                   onkeydown="if(event.key==='Enter')sendChat()" />
+            <button class="btn btn-primary btn-sm" onclick="sendChat()"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const win = document.getElementById('chatbot-window');
+            const fab = document.getElementById('chatbot-fab');
+            win.classList.toggle('open');
+            fab.classList.toggle('hidden');
+        }
+
+        function formatReply(text) {
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" style="color:#818cf8">$1</a>')
+                .replace(/\n/g, '<br>');
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('chatbot-input');
+            const messages = document.getElementById('chatbot-messages');
+            const text = input.value.trim();
+            if (!text) return;
+
+            // User message
+            messages.innerHTML += `<div class="chat-bubble user">${text.replace(/</g,'&lt;')}</div>`;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            // Typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'chat-bubble bot typing-indicator';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            messages.appendChild(typing);
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const res = await fetch('/Chatbot/Ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                const data = await res.json();
+                typing.remove();
+                messages.innerHTML += `<div class="chat-bubble bot">${formatReply(data.reply)}</div>`;
+            } catch {
+                typing.remove();
+                messages.innerHTML += `<div class="chat-bubble bot">❌ Something went wrong. Please try again.</div>`;
+            }
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+}
 </body>
 </html>
