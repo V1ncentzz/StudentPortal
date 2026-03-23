@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentPortal.Models;
+using StudentPortal.Services;
 
 namespace StudentPortal.Controllers
 {
@@ -74,7 +75,7 @@ namespace StudentPortal.Controllers
                 var user = new User
                 {
                     Username = student.Email,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                    PasswordHash = PasswordHasher.HashPassword(password),
                     Role = "Student",
                     StudentId = student.StudentId
                 };

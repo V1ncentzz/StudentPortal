@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentPortal.Models;
+using StudentPortal.Services;
 using System.Security.Claims;
 
 namespace StudentPortal.Controllers
@@ -37,7 +38,7 @@ namespace StudentPortal.Controllers
                 .Include(u => u.Student)
                 .FirstOrDefaultAsync(u => u.Username == model.Username);
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+            if (user == null || !PasswordHasher.PasswordVerify(model.Password, user.PasswordHash))
             {
                 ModelState.AddModelError("", "Invalid username or password.");
                 return View(model);

@@ -50,7 +50,7 @@ namespace StudentPortal.Models
             {
                 Id = 1,
                 Username = "admin",
-                PasswordHash = "$2a$11$npnhaXhxOCrO51AzZRm8QO4H.gPCUHvvaSN5WWnuh0Sqp4S55MCUm",
+                PasswordHash = "JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=",
                 Role = "Admin",
                 StudentId = null
             });
